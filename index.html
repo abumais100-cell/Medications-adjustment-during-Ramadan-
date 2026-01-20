@@ -6,8 +6,18 @@
   <title>Ramadan Medication Adjustment Guide</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" href="./manifest.webmanifest">
   <meta name="theme-color" content="#101a36">
+
+  <!-- iOS / Apple -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ramadan Med Guide">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+  <!-- General icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 
   <style>
     :root{
@@ -36,62 +46,15 @@
         var(--bg);
       min-height:100vh;
     }
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:28px 18px 40px;
-    }
-    header{
-      display:flex;
-      gap:14px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    h1{
-      margin:0;
-      font-size: clamp(20px, 3.2vw, 32px);
-      letter-spacing:.2px;
-    }
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size: 14px;
-      line-height:1.4;
-      max-width:70ch;
-    }
-    .badgeRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
-    .badge{
-      background: var(--pill);
-      border:1px solid var(--line);
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color:var(--muted);
-      backdrop-filter: blur(6px);
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:14px;
-    }
-    @media (max-width: 920px){
-      .grid{grid-template-columns:1fr}
-    }
-
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 40px;}
+    header{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px;}
+    .title{display:flex;flex-direction:column;gap:6px;}
+    h1{margin:0;font-size: clamp(20px, 3.2vw, 32px);letter-spacing:.2px;}
+    .subtitle{margin:0;color:var(--muted);font-size: 14px;line-height:1.4;max-width:70ch;}
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;}
+    .badge{background: var(--pill);border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-size:12px;color:var(--muted);backdrop-filter: blur(6px);}
+    .grid{display:grid;grid-template-columns: 1.1fr .9fr;gap:14px;}
+    @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border:1px solid var(--line);
@@ -99,36 +62,11 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .cardHead{
-      padding:16px 16px 12px;
-      border-bottom:1px solid var(--line);
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .cardTitle{
-      margin:0;
-      font-size:15px;
-      letter-spacing:.2px;
-      color: var(--text);
-    }
-    .controls{
-      padding:14px 16px 16px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width: 560px){
-      .controls{grid-template-columns:1fr}
-    }
-    label{
-      display:block;
-      font-size:12px;
-      color: var(--muted);
-      margin-bottom:6px;
-    }
+    .cardHead{padding:16px 16px 12px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+    .cardTitle{margin:0;font-size:15px;letter-spacing:.2px;color: var(--text);}
+    .controls{padding:14px 16px 16px;display:grid;grid-template-columns: 1fr 1fr;gap:12px;}
+    @media (max-width: 560px){ .controls{grid-template-columns:1fr} }
+    label{display:block;font-size:12px;color: var(--muted);margin-bottom:6px;}
     input[type="search"], select{
       width:100%;
       padding:12px 12px;
@@ -140,145 +78,33 @@
     }
     input[type="search"]::placeholder{color:rgba(184,192,255,.65)}
     option{background:#0b1020; color: var(--text)}
-    .content{
-      padding:0 16px 16px;
-      display:grid;
-      gap:12px;
-    }
-    .infoTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background: var(--pill);
-      border:1px solid var(--line);
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color: var(--muted);
-      backdrop-filter: blur(6px);
-      white-space:nowrap;
-    }
-    .drugName{
-      margin:0;
-      font-size:20px;
-      letter-spacing:.2px;
-    }
-    .category{
-      font-size:12px;
-      color: var(--muted);
-      margin-top:4px;
-    }
-    .table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0;
-      overflow:hidden;
-      border:1px solid var(--line);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.12);
-    }
-    .table th, .table td{
-      text-align:left;
-      padding:12px 12px;
-      border-bottom:1px solid var(--line);
-      vertical-align:top;
-      font-size:13px;
-      line-height:1.45;
-    }
-    .table th{
-      font-size:12px;
-      color: var(--muted);
-      letter-spacing:.3px;
-      background: rgba(255,255,255,.03);
-    }
+    .content{padding:0 16px 16px;display:grid;gap:12px;}
+    .infoTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+    .pill{display:inline-flex;align-items:center;gap:8px;background: var(--pill);border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-size:12px;color: var(--muted);backdrop-filter: blur(6px);white-space:nowrap;}
+    .drugName{margin:0;font-size:20px;letter-spacing:.2px;}
+    .category{font-size:12px;color: var(--muted);margin-top:4px;}
+    .table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius: var(--radius2);background: rgba(0,0,0,.12);}
+    .table th, .table td{text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px;line-height:1.45;}
+    .table th{font-size:12px;color: var(--muted);letter-spacing:.3px;background: rgba(255,255,255,.03);}
     .table tr:last-child td{border-bottom:none}
-    .spec{
-      font-family:var(--mono);
-      font-size:12px;
-      color: rgba(232,236,255,.92);
-      background: rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      padding:6px 10px;
-      border-radius:999px;
-      display:inline-block;
-      white-space:nowrap;
-    }
-    .note{
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.10);
-      padding:12px 12px;
-      border-radius: var(--radius2);
-      font-size:13px;
-      color: rgba(232,236,255,.92);
-      line-height:1.5;
-    }
+    .spec{font-family:var(--mono);font-size:12px;color: rgba(232,236,255,.92);background: rgba(255,255,255,.05);border:1px solid var(--line);padding:6px 10px;border-radius:999px;display:inline-block;white-space:nowrap;}
+    .note{border:1px dashed rgba(255,255,255,.18);background: rgba(0,0,0,.10);padding:12px 12px;border-radius: var(--radius2);font-size:13px;color: rgba(232,236,255,.92);line-height:1.5;}
     .note b{color: var(--text)}
-    .side{
-      padding:16px;
-      display:grid;
-      gap:12px;
-    }
-    .miniCard{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.10);
-      border-radius: var(--radius2);
-      padding:12px;
-    }
-    .miniTitle{
-      margin:0 0 8px;
-      font-size:13px;
-      color: var(--muted);
-      letter-spacing:.2px;
-    }
-    ul{
-      margin:0;
-      padding-left:18px;
-      line-height:1.5;
-      font-size:13px;
-      color: rgba(232,236,255,.92);
-    }
-    .footer{
-      margin-top:14px;
-      font-size:12px;
-      color: rgba(184,192,255,.85);
-      line-height:1.5;
-      padding:14px 16px 16px;
-      border-top:1px solid var(--line);
-    }
-    .btnRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    button{
-      cursor:pointer;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding:10px 12px;
-      border-radius:12px;
-      font-size:12px;
-    }
+    .side{padding:16px;display:grid;gap:12px;}
+    .miniCard{border:1px solid var(--line);background: rgba(0,0,0,.10);border-radius: var(--radius2);padding:12px;}
+    .miniTitle{margin:0 0 8px;font-size:13px;color: var(--muted);letter-spacing:.2px;}
+    ul{margin:0;padding-left:18px;line-height:1.5;font-size:13px;color: rgba(232,236,255,.92);}
+    .footer{margin-top:14px;font-size:12px;color: rgba(184,192,255,.85);line-height:1.5;padding:14px 16px 16px;border-top:1px solid var(--line);}
+    .btnRow{display:flex;gap:10px;flex-wrap:wrap;}
+    button{cursor:pointer;border:1px solid var(--line);background: rgba(255,255,255,.06);color: var(--text);padding:10px 12px;border-radius:12px;font-size:12px;}
     button:hover{background: rgba(255,255,255,.10)}
-    .hint{
-      font-size:12px;
-      color: rgba(184,192,255,.85);
-    }
+    .hint{font-size:12px;color: rgba(184,192,255,.85);}
 
-    /* Print */
     @media print{
       body{background:#fff; color:#000}
-      .card{box-shadow:none}
       .badgeRow,.controls,.btnRow,aside{display:none !important}
       .wrap{max-width:none; padding:0}
-      .card{border:none}
+      .card{border:none; box-shadow:none}
       .table, .table th, .table td{border-color:#ddd}
     }
   </style>
@@ -302,7 +128,6 @@
     </header>
 
     <div class="grid">
-      <!-- Main -->
       <section class="card" aria-label="Drug selector and recommendations">
         <div class="cardHead">
           <p class="cardTitle">Select the drug → get Ramadan adjustment advice</p>
@@ -332,7 +157,6 @@
         </div>
       </section>
 
-      <!-- Sidebar -->
       <aside class="card" aria-label="Quick notes and resources">
         <div class="side">
           <div class="miniCard">
@@ -366,7 +190,6 @@
   </div>
 
   <script>
-    // Data extracted from your table
     const DATA = [
       { category: "Diabetes – oral medications", drug: "Metformin",
         rows: [
@@ -383,7 +206,6 @@
         ],
         notes: []
       },
-
       { category: "Diabetes – insulin therapy", drug: "Long acting insulin",
         rows: [
           { spec: "OD", rec: "Take at iftar; reduce dose by 15–30%." },
@@ -405,7 +227,6 @@
         ],
         notes: []
       },
-
       { category: "Antihypertensive medication", drug: "Bisoprolol",
         rows: [{ spec: "OD", rec: "Take after suhoor." }],
         notes: []
@@ -425,12 +246,10 @@
         rows: [{ spec: "OD", rec: "Take after Ishaa praying; might cause dehydration." }],
         notes: []
       },
-
       { category: "Antiplatelet", drug: "Aspirin / Clopidogrel",
         rows: [{ spec: "OD", rec: "Take after a full iftar meal to avoid stomach irritation." }],
         notes: []
       },
-
       { category: "Heart failure", drug: "Furosemide",
         rows: [{ spec: "OD", rec: "Take after Ishaa praying." }],
         notes: []
@@ -443,7 +262,6 @@
         rows: [{ spec: "—", rec: "Advise not to fast." }],
         notes: []
       },
-
       { category: "Epilepsy", drug: "Carbamazepine",
         rows: [
           { spec: "OD", rec: "Take after iftar." },
@@ -465,7 +283,6 @@
         ],
         notes: []
       },
-
       { category: "Asthma", drug: "Inhalers",
         rows: [{ spec: "—", rec: "No dose change; DOES NOT invalidate fasting." }],
         notes: []
@@ -474,12 +291,10 @@
         rows: [{ spec: "—", rec: "No dose change; DOES invalidate fasting." }],
         notes: []
       },
-
       { category: "Lipids", drug: "Simvastatin",
         rows: [{ spec: "—", rec: "Take before bedtime." }],
         notes: []
       },
-
       { category: "Thyroid medication", drug: "Thyroxine",
         rows: [{ spec: "OD", rec: "Should be taken 2 hours before the last meal and 30 minutes before the next meal." }],
         notes: []
@@ -491,7 +306,6 @@
         ],
         notes: []
       },
-
       { category: "Warfarin", drug: "Warfarin",
         rows: [{ spec: "OD", rec: "After iftar." }],
         notes: [
@@ -512,10 +326,7 @@
 
     function populateSelect(filterText = "") {
       const ft = filterText.trim().toLowerCase();
-      const list = ft
-        ? ALL_DRUG_NAMES.filter(n => n.toLowerCase().includes(ft))
-        : ALL_DRUG_NAMES.slice();
-
+      const list = ft ? ALL_DRUG_NAMES.filter(n => n.toLowerCase().includes(ft)) : ALL_DRUG_NAMES.slice();
       const prev = selectEl.value;
 
       selectEl.innerHTML = "";
@@ -531,7 +342,6 @@
         opt.textContent = "No matches — refine your search";
         selectEl.appendChild(opt);
       }
-
       selectEl.value = list.includes(prev) ? prev : (list[0] ?? "");
     }
 
@@ -598,9 +408,7 @@
       lines.push(`Category: ${item.category}`);
       lines.push("");
       lines.push("Recommendations:");
-      for (const r of item.rows){
-        lines.push(`- ${r.spec}: ${r.rec}`);
-      }
+      for (const r of item.rows) lines.push(`- ${r.spec}: ${r.rec}`);
       if (item.notes?.length){
         lines.push("");
         lines.push("Notes:");
@@ -614,9 +422,7 @@
       renderDrug(selectEl.value);
     });
 
-    selectEl.addEventListener("change", () => {
-      renderDrug(selectEl.value);
-    });
+    selectEl.addEventListener("change", () => renderDrug(selectEl.value));
 
     copyBtn.addEventListener("click", async () => {
       const txt = getDisplayedText();
@@ -640,8 +446,7 @@
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
-          .register("sw.js")
-          .then(reg => console.log("Service Worker registered", reg))
+          .register("./sw.js")
           .catch(err => console.error("Service Worker registration failed", err));
       });
     }
