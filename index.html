@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ramadan Medication Adjustment Guide</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#101a36">
+
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#101a36;
+      --card2:#0f1730;
+      --text:#e8ecff;
+      --muted:#b8c0ff;
+      --line:rgba(255,255,255,.10);
+      --pill:rgba(255,255,255,.08);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(122,162,255,.25), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(205,120,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 40% 120%, rgba(80,255,207,.12), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:28px 18px 40px;
+    }
+    header{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(20px, 3.2vw, 32px);
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size: 14px;
+      line-height:1.4;
+      max-width:70ch;
+    }
+    .badgeRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .badge{
+      background: var(--pill);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+      backdrop-filter: blur(6px);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding:16px 16px 12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .cardTitle{
+      margin:0;
+      font-size:15px;
+      letter-spacing:.2px;
+      color: var(--text);
+    }
+    .controls{
+      padding:14px 16px 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 560px){
+      .controls{grid-template-columns:1fr}
+    }
+    label{
+      display:block;
+      font-size:12px;
+      color: var(--muted);
+      margin-bottom:6px;
+    }
+    input[type="search"], select{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.15);
+      color: var(--text);
+      outline:none;
+    }
+    input[type="search"]::placeholder{color:rgba(184,192,255,.65)}
+    option{background:#0b1020; color: var(--text)}
+    .content{
+      padding:0 16px 16px;
+      display:grid;
+      gap:12px;
+    }
+    .infoTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background: var(--pill);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color: var(--muted);
+      backdrop-filter: blur(6px);
+      white-space:nowrap;
+    }
+    .drugName{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.2px;
+    }
+    .category{
+      font-size:12px;
+      color: var(--muted);
+      margin-top:4px;
+    }
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.12);
+    }
+    .table th, .table td{
+      text-align:left;
+      padding:12px 12px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .table th{
+      font-size:12px;
+      color: var(--muted);
+      letter-spacing:.3px;
+      background: rgba(255,255,255,.03);
+    }
+    .table tr:last-child td{border-bottom:none}
+    .spec{
+      font-family:var(--mono);
+      font-size:12px;
+      color: rgba(232,236,255,.92);
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      display:inline-block;
+      white-space:nowrap;
+    }
+    .note{
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.10);
+      padding:12px 12px;
+      border-radius: var(--radius2);
+      font-size:13px;
+      color: rgba(232,236,255,.92);
+      line-height:1.5;
+    }
+    .note b{color: var(--text)}
+    .side{
+      padding:16px;
+      display:grid;
+      gap:12px;
+    }
+    .miniCard{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.10);
+      border-radius: var(--radius2);
+      padding:12px;
+    }
+    .miniTitle{
+      margin:0 0 8px;
+      font-size:13px;
+      color: var(--muted);
+      letter-spacing:.2px;
+    }
+    ul{
+      margin:0;
+      padding-left:18px;
+      line-height:1.5;
+      font-size:13px;
+      color: rgba(232,236,255,.92);
+    }
+    .footer{
+      margin-top:14px;
+      font-size:12px;
+      color: rgba(184,192,255,.85);
+      line-height:1.5;
+      padding:14px 16px 16px;
+      border-top:1px solid var(--line);
+    }
+    .btnRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    button{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:12px;
+    }
+    button:hover{background: rgba(255,255,255,.10)}
+    .hint{
+      font-size:12px;
+      color: rgba(184,192,255,.85);
+    }
+
+    /* Print */
+    @media print{
+      body{background:#fff; color:#000}
+      .card{box-shadow:none}
+      .badgeRow,.controls,.btnRow,aside{display:none !important}
+      .wrap{max-width:none; padding:0}
+      .card{border:none}
+      .table, .table th, .table td{border-color:#ddd}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Ramadan Medication Adjustment Guide</h1>
+        <p class="subtitle">
+          Select a drug to view recommended timing/dose adjustments during Ramadan (Iftar / Suhoor).
+          This is a quick-reference summary; clinical judgment and patient-specific risk assessment still apply.
+        </p>
+      </div>
+      <div class="badgeRow">
+        <span class="badge">OD = once daily</span>
+        <span class="badge">BID = twice daily</span>
+        <span class="badge">TID = three times daily</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Main -->
+      <section class="card" aria-label="Drug selector and recommendations">
+        <div class="cardHead">
+          <p class="cardTitle">Select the drug → get Ramadan adjustment advice</p>
+          <div class="btnRow">
+            <button id="copyBtn" type="button">Copy shown advice</button>
+            <button id="printBtn" type="button">Print</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div>
+            <label for="search">Search drug</label>
+            <input id="search" type="search" placeholder="Type e.g., metformin, warfarin, insulin..." />
+          </div>
+          <div>
+            <label for="drugSelect">Choose drug</label>
+            <select id="drugSelect"></select>
+          </div>
+        </div>
+
+        <div class="content" id="content"></div>
+
+        <div class="footer">
+          <div class="hint">
+            Tip: Use the search box, then pick the closest match. You can print or copy the currently displayed advice.
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="card" aria-label="Quick notes and resources">
+        <div class="side">
+          <div class="miniCard">
+            <p class="miniTitle">General reminders</p>
+            <ul>
+              <li>High-risk patients may need individualized plans and closer monitoring.</li>
+              <li>Advise hydration during non-fasting hours when appropriate.</li>
+              <li>Watch for dizziness, postural hypotension, and hypoglycemia.</li>
+            </ul>
+          </div>
+
+          <div class="miniCard">
+            <p class="miniTitle">Asthma note (from table)</p>
+            <ul>
+              <li><b>Inhalers:</b> No dose change; does not invalidate fasting.</li>
+              <li><b>Vaporizer:</b> No dose change; does invalidate fasting.</li>
+            </ul>
+          </div>
+
+          <div class="miniCard">
+            <p class="miniTitle">Resources (from table)</p>
+            <ul>
+              <li>IDF-DAR Diabetes and Ramadan Practical Guidelines 2021</li>
+              <li>Hamad Medical Corporation</li>
+              <li>Oral anticoagulation therapy using acenocoumarol during Ramadan: comparative study (fasting vs non-fasting)</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // Data extracted from your table
+    const DATA = [
+      { category: "Diabetes – oral medications", drug: "Metformin",
+        rows: [
+          { spec: "OD", rec: "Take at iftar." },
+          { spec: "BID", rec: "Take at iftar and suhoor." },
+          { spec: "TID or more", rec: "Morning dose after suhoor; combine afternoon and evening dose at iftar." }
+        ],
+        notes: []
+      },
+      { category: "Diabetes – oral medications", drug: "Sulfonylurea",
+        rows: [
+          { spec: "OD", rec: "Take at iftar." },
+          { spec: "BID", rec: "Take at iftar; reduce suhoor dose by 50%." }
+        ],
+        notes: []
+      },
+
+      { category: "Diabetes – insulin therapy", drug: "Long acting insulin",
+        rows: [
+          { spec: "OD", rec: "Take at iftar; reduce dose by 15–30%." },
+          { spec: "BID", rec: "Take early morning dose at iftar; reduce evening dose by 50% and take it before suhoor." }
+        ],
+        notes: []
+      },
+      { category: "Diabetes – insulin therapy", drug: "Premixed insulin",
+        rows: [
+          { spec: "OD", rec: "Take at iftar." },
+          { spec: "BID", rec: "Take usual morning dose at iftar; reduce evening dose by 25–50% and take it before suhoor; omit afternoon dose." }
+        ],
+        notes: []
+      },
+      { category: "Diabetes – insulin therapy", drug: "Rapid acting insulin",
+        rows: [
+          { spec: "BID", rec: "Take usual morning dose at iftar; reduce evening dose by 25–50% and take it before suhoor." },
+          { spec: "TID", rec: "Take normal dose at iftar; omit lunch dose; reduce suhoor dose by 25–50%." }
+        ],
+        notes: []
+      },
+
+      { category: "Antihypertensive medication", drug: "Bisoprolol",
+        rows: [{ spec: "OD", rec: "Take after suhoor." }],
+        notes: []
+      },
+      { category: "Antihypertensive medication", drug: "ACE inhibitors / ARBs",
+        rows: [
+          { spec: "OD", rec: "Take after Ishaa praying (≈ two hours after iftar)." },
+          { spec: "BID", rec: "Take at iftar and suhoor, but monitor for dizziness and postural hypotension." }
+        ],
+        notes: []
+      },
+      { category: "Antihypertensive medication", drug: "CCB (Calcium channel blocker)",
+        rows: [{ spec: "OD", rec: "Take after iftar or suhoor." }],
+        notes: []
+      },
+      { category: "Antihypertensive medication", drug: "Thiazide",
+        rows: [{ spec: "OD", rec: "Take after Ishaa praying; might cause dehydration." }],
+        notes: []
+      },
+
+      { category: "Antiplatelet", drug: "Aspirin / Clopidogrel",
+        rows: [{ spec: "OD", rec: "Take after a full iftar meal to avoid stomach irritation." }],
+        notes: []
+      },
+
+      { category: "Heart failure", drug: "Furosemide",
+        rows: [{ spec: "OD", rec: "Take after Ishaa praying." }],
+        notes: []
+      },
+      { category: "Heart failure", drug: "Digoxin",
+        rows: [{ spec: "OD", rec: "Take after suhoor." }],
+        notes: []
+      },
+      { category: "Heart failure", drug: "Furosemide + thiazide (combined)",
+        rows: [{ spec: "—", rec: "Advise not to fast." }],
+        notes: []
+      },
+
+      { category: "Epilepsy", drug: "Carbamazepine",
+        rows: [
+          { spec: "OD", rec: "Take after iftar." },
+          { spec: "BID", rec: "Take after iftar and suhoor." }
+        ],
+        notes: []
+      },
+      { category: "Epilepsy", drug: "Sodium valproate",
+        rows: [
+          { spec: "OD", rec: "Take after iftar." },
+          { spec: "BID", rec: "Take after iftar and suhoor." }
+        ],
+        notes: []
+      },
+      { category: "Epilepsy", drug: "Phenytoin",
+        rows: [
+          { spec: "OD", rec: "Take after iftar." },
+          { spec: "BID", rec: "Take after iftar and suhoor." }
+        ],
+        notes: []
+      },
+
+      { category: "Asthma", drug: "Inhalers",
+        rows: [{ spec: "—", rec: "No dose change; DOES NOT invalidate fasting." }],
+        notes: []
+      },
+      { category: "Asthma", drug: "Vaporizer",
+        rows: [{ spec: "—", rec: "No dose change; DOES invalidate fasting." }],
+        notes: []
+      },
+
+      { category: "Lipids", drug: "Simvastatin",
+        rows: [{ spec: "—", rec: "Take before bedtime." }],
+        notes: []
+      },
+
+      { category: "Thyroid medication", drug: "Thyroxine",
+        rows: [{ spec: "OD", rec: "Should be taken 2 hours before the last meal and 30 minutes before the next meal." }],
+        notes: []
+      },
+      { category: "Thyroid medication", drug: "Methimazole",
+        rows: [
+          { spec: "OD", rec: "Take after iftar." },
+          { spec: "BID", rec: "Take after iftar and suhoor." }
+        ],
+        notes: []
+      },
+
+      { category: "Warfarin", drug: "Warfarin",
+        rows: [{ spec: "OD", rec: "After iftar." }],
+        notes: [
+          "Food may induce ulcer if taken on an empty stomach.",
+          "Vegetables high in vitamin K may reduce warfarin effect (e.g., broccoli, spinach, kale, turnip greens, cabbage).",
+          "Avoid garlic, ginger, glucosamine, ginseng, and ginkgo as they may increase bleeding."
+        ]
+      }
+    ];
+
+    const ALL_DRUG_NAMES = DATA.map(x => x.drug);
+
+    const searchEl = document.getElementById("search");
+    const selectEl = document.getElementById("drugSelect");
+    const contentEl = document.getElementById("content");
+    const copyBtn = document.getElementById("copyBtn");
+    const printBtn = document.getElementById("printBtn");
+
+    function populateSelect(filterText = "") {
+      const ft = filterText.trim().toLowerCase();
+      const list = ft
+        ? ALL_DRUG_NAMES.filter(n => n.toLowerCase().includes(ft))
+        : ALL_DRUG_NAMES.slice();
+
+      const prev = selectEl.value;
+
+      selectEl.innerHTML = "";
+      for (const name of list) {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        selectEl.appendChild(opt);
+      }
+      if (list.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No matches — refine your search";
+        selectEl.appendChild(opt);
+      }
+
+      selectEl.value = list.includes(prev) ? prev : (list[0] ?? "");
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function renderDrug(drugName){
+      const item = DATA.find(x => x.drug === drugName);
+      if (!item){
+        contentEl.innerHTML = `<div class="note"><b>No selection.</b> Please choose a drug from the list.</div>`;
+        return;
+      }
+
+      const rowsHtml = item.rows.map(r => `
+        <tr>
+          <td><span class="spec">${escapeHtml(r.spec)}</span></td>
+          <td>${escapeHtml(r.rec)}</td>
+        </tr>
+      `).join("");
+
+      const notesHtml = (item.notes && item.notes.length)
+        ? `<div class="note"><b>Notes:</b><ul style="margin:8px 0 0; padding-left:18px;">
+            ${item.notes.map(n => `<li>${escapeHtml(n)}</li>`).join("")}
+           </ul></div>`
+        : "";
+
+      contentEl.innerHTML = `
+        <div class="infoTop">
+          <div>
+            <p class="drugName">${escapeHtml(item.drug)}</p>
+            <div class="category">${escapeHtml(item.category)}</div>
+          </div>
+          <span class="pill">Advice during Ramadan</span>
+        </div>
+
+        <table class="table" aria-label="Recommendations table">
+          <thead>
+            <tr>
+              <th style="width:180px;">Specification</th>
+              <th>Recommendation</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+
+        ${notesHtml}
+      `;
+    }
+
+    function getDisplayedText(){
+      const drug = selectEl.value;
+      const item = DATA.find(x => x.drug === drug);
+      if (!item) return "";
+      const lines = [];
+      lines.push(`Drug: ${item.drug}`);
+      lines.push(`Category: ${item.category}`);
+      lines.push("");
+      lines.push("Recommendations:");
+      for (const r of item.rows){
+        lines.push(`- ${r.spec}: ${r.rec}`);
+      }
+      if (item.notes?.length){
+        lines.push("");
+        lines.push("Notes:");
+        for (const n of item.notes) lines.push(`- ${n}`);
+      }
+      return lines.join("\n");
+    }
+
+    searchEl.addEventListener("input", () => {
+      populateSelect(searchEl.value);
+      renderDrug(selectEl.value);
+    });
+
+    selectEl.addEventListener("change", () => {
+      renderDrug(selectEl.value);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const txt = getDisplayedText();
+      try{
+        await navigator.clipboard.writeText(txt);
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(() => (copyBtn.textContent = "Copy shown advice"), 1200);
+      } catch(e){
+        alert("Copy failed. Your browser may block clipboard access.");
+      }
+    });
+
+    printBtn.addEventListener("click", () => window.print());
+
+    // Init
+    populateSelect("");
+    selectEl.value = ALL_DRUG_NAMES[0];
+    renderDrug(selectEl.value);
+
+    // Register service worker (PWA)
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then(reg => console.log("Service Worker registered", reg))
+          .catch(err => console.error("Service Worker registration failed", err));
+      });
+    }
+  </script>
+</body>
+</html>
